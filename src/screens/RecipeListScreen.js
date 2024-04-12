@@ -25,7 +25,7 @@ const RecipeListScreen = () => {
 			{/* Recipe List Filter */}
 
 			<View style={{ marginTop: 22, flex: 1 }}>
-				<Text style={{ fontSize: 22, fontWeight: "bold" }}>Listes</Text>
+				<Text style={{ fontSize: 22, fontWeight: "bold" }}>Listes des animaux</Text>
 				{/* Recipes list */}
 
 				<RecipeCard />
