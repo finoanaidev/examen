@@ -1,66 +1,7 @@
+import { View, Text, TouchableOpacity, SafeAreaView, TextInput } from 'react-native'
+import React from 'react'
 
-
-// import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-// import React from "react";
-
-// const Login = ({ navigation }) => {
-// 	return (
-// 		<View style={{ flex: 1, alignItems: "center" }}>
-
-// 			<Image
-// 				source={require("../../assets/images/crevette.jpg")}
-// 				style={{ marginTop: 30 }}
-// 			/>
-
-// 			<Text style={{ color: "#f96163", fontSize: 22, fontWeight: "bold" }}>
-// 				login no eto
-// 			</Text>
-
-// 			<Text
-// 				style={{
-// 					fontSize: 42,
-// 					fontWeight: "bold",
-// 					color: "#3c444c",
-// 					marginTop: 44,
-// 					marginBottom: 40,
-// 				}}
-// 			>
-// 				logiiinn
-// 			</Text>
-
-// 			<TouchableOpacity
-// 				onPress={() => navigation.navigate("RecipeList")}
-// 				style={{
-// 					backgroundColor: "#f96163",
-// 					borderRadius: 18,
-// 					paddingVertical: 18,
-// 					width: "80%",
-// 					alignItems: "center",
-// 				}}
-// 			>
-// 				<Text style={{ fontSize: 18, color: "#fff", fontWeight: "700" }}>
-// 					Se connecter
-// 				</Text>
-// 			</TouchableOpacity>
-// 		</View>
-// 	);
-// };
-
-// export default Login;
-
-// const styles = StyleSheet.create({});
-
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
-import React from "react";
-//import spacing from '../constants/Spacing
-
-const Login = ({ navigation }) => {
+const Register = ({navigation}) => {
   return (
     <SafeAreaView>
       <View
@@ -81,17 +22,17 @@ const Login = ({ navigation }) => {
               marginVertical: 20,
             }}
           >
-            Login
+            Créer un compte
           </Text>
           <Text
             style={{
               fontFamily: "poppins-semiBold",
               fontSize: 15,
-              maxWidth: 60,
+              maxWidth: 88,
               textAlign: "center",
             }}
           >
-            Welcome back
+            Create an account so you can explore all the existing jobs
           </Text>
         </View>
         <View
@@ -126,18 +67,20 @@ const Login = ({ navigation }) => {
               marginVertical: 11,
             }}
           />
-        </View>
-        <View>
-          <Text
+                    <TextInput
+            placeholder="Confirm Pasword"
+            placeholderTextColor={"black"}
+            secureTextEntry
             style={{
-              fontFamily: "poppins-semiBold",
-              fontSize: "small",
-              color: "blue",
-              alignSelf: "flex-end",
+              fontFamily: "poppins-regular",
+              fontSize: 15,
+              padding: 10,
+              backgroundColor: "white",
+              color: "black",
+              borderRadius: 10,
+              marginVertical: 11,
             }}
-          >
-            Forget password
-          </Text>
+          />
         </View>
         <TouchableOpacity
          onPress={() => navigation.navigate("RecipeList")}
@@ -156,11 +99,11 @@ const Login = ({ navigation }) => {
               fontSize: 30,
             }}
           >
-            Sign in
+            Sign up
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-        onPress={() => navigation.navigate("Register")}
+        onPress={() => navigation.navigate("Login")}
           style={{
             padding: 10,
             marginVertical: 20,
@@ -174,12 +117,12 @@ const Login = ({ navigation }) => {
               fontSize: 20,
             }}
           >
-            creat new account
+            Already have an account
           </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
-  );
-};
+  )
+}
 
-export default Login;
+export default Register
