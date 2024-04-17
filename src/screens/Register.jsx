@@ -1,128 +1,84 @@
-import { View, Text, TouchableOpacity, SafeAreaView, TextInput } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native'
+import React, { useState } from 'react'
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import axios from 'axios'
+import { useNavigation } from '@react-navigation/native';
 
-const Register = ({navigation}) => {
-  return (
-    <SafeAreaView>
-      <View
-        style={{
-          padding: 24,
-        }}
-      >
-        <View
-          style={{
-            alignItems: "center",
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 30,
-              color: "red",
-              fontFamily: "poppins-bold",
-              marginVertical: 20,
-            }}
-          >
-            Créer un compte
-          </Text>
-          <Text
-            style={{
-              fontFamily: "poppins-semiBold",
-              fontSize: 15,
-              maxWidth: 88,
-              textAlign: "center",
-            }}
-          >
-            Create an account so you can explore all the existing jobs
-          </Text>
-        </View>
-        <View
-          style={{
-            marginVertical: 7,
-          }}
-        >
-          <TextInput
-            placeholder="Email"
-            placeholderTextColor={"black"}
-            style={{
-              fontFamily: "poppins-regular",
-              fontSize: 15,
-              padding: 10,
-              backgroundColor: "white",
-              color: "black",
-              borderRadius: 10,
-              marginVertical: 11,
-            }}
-          />
-          <TextInput
-            placeholder="Pasword"
-            placeholderTextColor={"black"}
-            secureTextEntry
-            style={{
-              fontFamily: "poppins-regular",
-              fontSize: 15,
-              padding: 10,
-              backgroundColor: "white",
-              color: "black",
-              borderRadius: 10,
-              marginVertical: 11,
-            }}
-          />
-                    <TextInput
-            placeholder="Confirm Pasword"
-            placeholderTextColor={"black"}
-            secureTextEntry
-            style={{
-              fontFamily: "poppins-regular",
-              fontSize: 15,
-              padding: 10,
-              backgroundColor: "white",
-              color: "black",
-              borderRadius: 10,
-              marginVertical: 11,
-            }}
-          />
-        </View>
-        <TouchableOpacity
-         onPress={() => navigation.navigate("RecipeList")}
-          style={{
-            padding: 10,
-            backgroundColor: "blue",
-            marginVertical: 20,
-            borderRadius: 10,
-          }}
-        >
-          <Text
-            style={{
-              fontFamily: "poppins-bold",
-              color: "white",
-              textAlign: "center",
-              fontSize: 30,
-            }}
-          >
-            Sign up
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-        onPress={() => navigation.navigate("Login")}
-          style={{
-            padding: 10,
-            marginVertical: 20,
-          }}
-        >
-          <Text
-            style={{
-              fontFamily: "poppins-bold",
-              color: "blue",
-              textAlign: "center",
-              fontSize: 20,
-            }}
-          >
-            Already have an account
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
-  )
+const Register = () => {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const navigation = useNavigation();
+    const handleSubmit = async () => {
+        if (name === '' || email === '' || password === '' ) {
+            alert("All fields are required");
+            return;
+        }
+        await axios.post("http://localhost:8800/api/signup", { name, email, password });
+        // alert("Sign In Successful");
+        navigation.navigate('RecipeList');
+    };
+    return (
+        <KeyboardAwareScrollView contentCotainerStyle={styles.container}>
+            <View style={{ marginVertical: 100 }}>
+            <View style={styles.imageContainer}>
+                <Image source={require("../../assets/images/canard.jpg")} style={styles.imageStyles} />
+            </View>
+                <Text style={styles.signupText}>Register</Text>
+                <View style={{ marginHorizontal: 24 }}>
+                    <Text style={{ fontSize: 16, color: '#8e93a1' }}>NOM</Text>
+                    <TextInput style={styles.signupInput} value={name} onChangeText={text => setName(text)} autoCompleteType="email" keyboardType="email-address" />
+                </View>
+                <View style={{ marginHorizontal: 24 }}>
+                    <Text style={{ fontSize: 16, color: '#8e93a1' }}>EMAIL</Text>
+                    <TextInput style={styles.signupInput} value={email} onChangeText={text => setEmail(text)} autoCompleteType="email" keyboardType="email-address" />
+                </View>
+                <View style={{ marginHorizontal: 24 }}>
+                    <Text style={{ fontSize: 16, color: '#8e93a1' }}>PASSWORD</Text>
+                    <TextInput style={styles.signupInput} value={password} onChangeText={text => setPassword(text)} secureTextEntry={true} autoComplteType="password" />
+                </View>
+                <TouchableOpacity onPress={handleSubmit} style={styles.buttonStyle}>
+                    <Text style={styles.buttonText}>Submit</Text>
+                </TouchableOpacity>
+                <Text style={{ fontSize: 12, textAlign: 'center' }}>Not yet registered? Sign Up</Text>
+                <Text style={{ fontSize: 12, textAlign: 'center', marginTop: 10 }}>Forgot Password?</Text>
+            </View>
+        </KeyboardAwareScrollView>
+    )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center'
+    },
+    signupText: {
+        fontSize: 30,
+        textAlign: 'center'
+    },
+    signupInput: {
+        borderBottomWidth: 0.5,
+        height: 48,
+        borderBottomColor: "#8e93a1",
+        marginBottom: 10,
+    },
+    buttonStyle: {
+        backgroundColor: "darkmagenta",
+        height: 50,
+        marginBottom: 5,
+        justifyContent: "center",
+        marginHorizontal: 15,
+        borderRadius: 15,
+    },
+    buttonText: {
+        fontSize: 20,
+        textAlign: 'center',
+        color: '#fff',
+        textTransform: 'uppercase',
+        fontWeight: 'bold'
+    },
+    imageContainer: { justifyContent: "center", alignItems: "center" },
+    imageStyles: { width: 100, height: 100, marginVertical: 20 }
+})
 
 export default Register

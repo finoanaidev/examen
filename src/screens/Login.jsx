@@ -1,165 +1,38 @@
-
-
-// import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-// import React from "react";
-
-// const Login = ({ navigation }) => {
-// 	return (
-// 		<View style={{ flex: 1, alignItems: "center" }}>
-
-// 			<Image
-// 				source={require("../../assets/images/crevette.jpg")}
-// 				style={{ marginTop: 30 }}
-// 			/>
-
-// 			<Text style={{ color: "#f96163", fontSize: 22, fontWeight: "bold" }}>
-// 				login no eto
-// 			</Text>
-
-// 			<Text
-// 				style={{
-// 					fontSize: 42,
-// 					fontWeight: "bold",
-// 					color: "#3c444c",
-// 					marginTop: 44,
-// 					marginBottom: 40,
-// 				}}
-// 			>
-// 				logiiinn
-// 			</Text>
-
-// 			<TouchableOpacity
-// 				onPress={() => navigation.navigate("RecipeList")}
-// 				style={{
-// 					backgroundColor: "#f96163",
-// 					borderRadius: 18,
-// 					paddingVertical: 18,
-// 					width: "80%",
-// 					alignItems: "center",
-// 				}}
-// 			>
-// 				<Text style={{ fontSize: 18, color: "#fff", fontWeight: "700" }}>
-// 					Se connecter
-// 				</Text>
-// 			</TouchableOpacity>
-// 		</View>
-// 	);
-// };
-
-// export default Login;
-
-// const styles = StyleSheet.create({});
-
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
-import React from "react";
-//import spacing from '../constants/Spacing
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native'
+import React, { useState } from 'react'
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import axios from 'axios'
 
 const Login = ({ navigation }) => {
-  return (
-    <SafeAreaView>
-      <View
-        style={{
-          padding: 24,
-        }}
-      >
-        <View
-          style={{
-            alignItems: "center",
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 30,
-              color: "red",
-              fontFamily: "poppins-bold",
-              marginVertical: 20,
-            }}
-          >
-            Login
-          </Text>
-          <Text
-            style={{
-              fontFamily: "poppins-semiBold",
-              fontSize: 15,
-              maxWidth: 60,
-              textAlign: "center",
-            }}
-          >
-            Welcome back
-          </Text>
-        </View>
-        <View
-          style={{
-            marginVertical: 7,
-          }}
-        >
-          <TextInput
-            placeholder="Email"
-            placeholderTextColor={"black"}
-            style={{
-              fontFamily: "poppins-regular",
-              fontSize: 15,
-              padding: 10,
-              backgroundColor: "white",
-              color: "black",
-              borderRadius: 10,
-              marginVertical: 11,
-            }}
-          />
-          <TextInput
-            placeholder="Pasword"
-            placeholderTextColor={"black"}
-            secureTextEntry
-            style={{
-              fontFamily: "poppins-regular",
-              fontSize: 15,
-              padding: 10,
-              backgroundColor: "white",
-              color: "black",
-              borderRadius: 10,
-              marginVertical: 11,
-            }}
-          />
-        </View>
-        <View>
-          <Text
-            style={{
-              fontFamily: "poppins-semiBold",
-              fontSize: "small",
-              color: "blue",
-              alignSelf: "flex-end",
-            }}
-          >
-            Forget password
-          </Text>
-        </View>
-        <TouchableOpacity
-         onPress={() => navigation.navigate("RecipeList")}
-          style={{
-            padding: 10,
-            backgroundColor: "blue",
-            marginVertical: 20,
-            borderRadius: 10,
-          }}
-        >
-          <Text
-            style={{
-              fontFamily: "poppins-bold",
-              color: "white",
-              textAlign: "center",
-              fontSize: 30,
-            }}
-          >
-            Sign in
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const handleSubmit = async () => {
+        if ( email === '' || password === '' ) {
+            alert("All fields are required");
+            return;
+        }
+        await axios.post("http://localhost:8800/api/signin", { email, password });
+        alert("Sign In Successful");
+    };
+    return (
+        <KeyboardAwareScrollView contentCotainerStyle={styles.container}>
+            <View style={{ marginVertical: 100 }}>
+            <View style={styles.imageContainer}>
+                <Image source={require("../../assets/images/canard.jpg")} style={styles.imageStyles} />
+            </View>
+                <Text style={styles.signupText}>Login</Text>
+                <View style={{ marginHorizontal: 24 }}>
+                    <Text style={{ fontSize: 16, color: '#8e93a1' }}>EMAIL</Text>
+                    <TextInput style={styles.signupInput} value={email} onChangeText={text => setEmail(text)} autoCompleteType="email" keyboardType="email-address" />
+                </View>
+                <View style={{ marginHorizontal: 24 }}>
+                    <Text style={{ fontSize: 16, color: '#8e93a1' }}>PASSWORD</Text>
+                    <TextInput style={styles.signupInput} value={password} onChangeText={text => setPassword(text)} secureTextEntry={true} autoComplteType="password" />
+                </View>
+                <TouchableOpacity onPress={handleSubmit} style={styles.buttonStyle}>
+                    <Text style={styles.buttonText}>Se connecter</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
         onPress={() => navigation.navigate("Register")}
           style={{
             padding: 10,
@@ -177,9 +50,44 @@ const Login = ({ navigation }) => {
             creat new account
           </Text>
         </TouchableOpacity>
-      </View>
-    </SafeAreaView>
-  );
-};
+                <Text style={{ fontSize: 12, textAlign: 'center', marginTop: 10 }}>Forgot Password?</Text>
+            </View>
+        </KeyboardAwareScrollView>
+    )
+}
 
-export default Login;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center'
+    },
+    signupText: {
+        fontSize: 30,
+        textAlign: 'center'
+    },
+    signupInput: {
+        borderBottomWidth: 0.5,
+        height: 48,
+        borderBottomColor: "#8e93a1",
+        marginBottom: 10,
+    },
+    buttonStyle: {
+        backgroundColor: "darkmagenta",
+        height: 50,
+        marginBottom: 5,
+        justifyContent: "center",
+        marginHorizontal: 15,
+        borderRadius: 15,
+    },
+    buttonText: {
+        fontSize: 20,
+        textAlign: 'center',
+        color: '#fff',
+        textTransform: 'uppercase',
+        fontWeight: 'bold'
+    },
+    imageContainer: { justifyContent: "center", alignItems: "center" },
+    imageStyles: { width: 100, height: 100, marginVertical: 20 }
+})
+
+export default Login
